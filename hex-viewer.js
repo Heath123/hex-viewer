@@ -1,7 +1,7 @@
 var HexViewer = (function (id) {
     'use strict';
     /* note: change in CSS too */
-    var COLUMNS = 16;
+    var COLUMNS = 12;
 
     /* prefs */
     var autoCenter = true;

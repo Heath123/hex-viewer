@@ -1,7 +1,7 @@
 /* octets per line */
-@columns: 16;
+@columns: 12;
 /* octets per group (groups are separated by whitespace) */
-@group_size: 4;
+@group_size: 12;
 @box_side_padding: .5ch;
 @box_topbot_padding: .2em;
 /* max width of line number information (including colon and space) */
@@ -37,7 +37,7 @@ body {
         min-height: (16em * (1 + @box_topbot_padding * 2) + 1em);
     }
     .hexasc, .annotations {
-        overflow-y: scroll;
+        /* overflow-y: scroll; */
         /* 16 visible lines (+1 for border) */
         display: inline-block;
         margin: 0;
@@ -67,7 +67,8 @@ body {
     }
 
     // 1 2 3 4   5 6 7
-    @inter_group_spacing: ceil(@columns / @group_size) - 1ch;
+    // @inter_group_spacing: ceil(@columns / @group_size) - 1ch;
+    @inter_group_spacing : 2;
     .hex .line {
         /* for every column, account for line no, two hex digits, left+right
          * padding and group padding */

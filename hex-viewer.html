@@ -2,28 +2,28 @@
 <html>
 <head>
 <title>Hex viewer</title>
-<link rel="stylesheet" type="text/less" href="style.less">
-<script src="less.js"></script>
+<link rel="stylesheet" type="text/css" href="style.css">
+<!--<script src="less.js"></script>
 <script>
 // fallback if a local less.js file cannot be loaded.
 window.less || document.write('<script src="' +
 'https://cdnjs.cloudflare.com/ajax/libs/less.js/1.6.1/less.min.js"><\/script>');
 window.less || alert('hex-viewer: compile style.less manually or find a less.js');
-</script>
+</script> -->
 </head>
 <body>
 
 <div id="page">
 <div id="hex-viewer"></div>
 
-<p class="controls">
+<!-- <p class="controls">
 <label for="file-picker">Open binary</label>
 <input type="file" id="file-picker">
 
 <label for="file-picker2">Open annotations</label>
 <input type="file" id="file-picker2">
 </p>
-</div>
+</div> -->
 
 <script src="polyfill.js"></script>
 <script src="annotations.js"></script>
@@ -39,16 +39,17 @@ var testData = array_to_arraybuffer(function () {
     return a;
 }());
 try {
-    loadArrayBuffer('test.bin', hexViewer.loadData.bind(hexViewer));
+    // loadArrayBuffer('test.bin', hexViewer.loadData.bind(hexViewer));
+    hexViewer.loadData.bind(hexViewer)("test");
 } catch (ex) {
     console.log('Failed to load test.bin: ', ex);
     hexViewer.loadData(testData);
 }
-try {
+/* try {
     loadString('test.txt', setAnnotations);
 } catch (ex) {
     console.log('Failed to load annotations from test.txt: ', ex);
-}
+} */
 
 function setAnnotations(text) {
     try {
@@ -60,8 +61,8 @@ function setAnnotations(text) {
     hexViewer.setAnnotations(annots);
 }
 
-handleFilePicker('file-picker', hexViewer.loadData.bind(hexViewer));
-handleFilePicker('file-picker2', setAnnotations, 'Text');
+// handleFilePicker('file-picker', hexViewer.loadData.bind(hexViewer));
+// handleFilePicker('file-picker2', setAnnotations, 'Text');
 
 function handleFilePicker(id, loadData, type) {
     type = type || 'ArrayBuffer';
