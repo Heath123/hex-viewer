@@ -1,0 +1,20 @@
+body {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.hex {
+    border: none!important;
+    padding: 1px 0 0 8px;
+}
+
+.annotations {
+    display: none!important;
+}
+
+.hex-viewer .hex span:hover, .hex-viewer .asc span:hover, .hex-viewer .annotations .line:hover, .hex-viewer .hex span.hover, .hex-viewer .asc span.hover, .hex-viewer .annotations .line.hover {
+    background: #960!important;
+}
+
+.hex-viewer .hex span.selected, .hex-viewer .asc span.selected, .hex-viewer .annotations .line.selected {
+    background: #c90!important;
+}
