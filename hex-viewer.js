@@ -1,3 +1,5 @@
+// const Clusterize = require('clusterize.js')
+
 var HexViewer = (function (id) {
     'use strict';
     /* note: change in CSS too */
@@ -17,18 +19,31 @@ var HexViewer = (function (id) {
     var bnbPanel = document.createElement('div');
     var hexascPanel = document.createElement('div');
     var hexPanel = document.createElement('div');
+    var hexScroll = document.createElement('div');
     var bitPanel = document.createElement('div');
     var ascPanel = document.createElement('div');
+    var ascScroll = document.createElement('div');
     var annoPanel = document.createElement('div');
     container.className = 'hex-viewer';
     bnbPanel.className = 'bits-n-bytes';
     hexascPanel.className = 'hexasc';
     hexPanel.className = 'hex';
+    hexPanel.id = 'hex';
+    hexScroll.className = 'hex-scroll syncscroll';
+    hexScroll.setAttribute('name', 'scroll'); // for syncscroll
+    hexScroll.id = 'hex-scroll';
     ascPanel.className = 'asc';
+    ascPanel.id = 'asc';
+    ascScroll.className = 'asc-scroll syncscroll';
+    ascScroll.setAttribute('name', 'scroll'); // for syncscroll
+    ascScroll.id = 'asc-scroll';
     bitPanel.className = 'bits';
     annoPanel.className = 'annotations';
 
-    [hexPanel, ascPanel].forEach(function (panel) {
+    hexScroll.appendChild(hexPanel);
+    ascScroll.appendChild(ascPanel);
+
+    [hexScroll, ascScroll].forEach(function (panel) {
         hexascPanel.appendChild(panel);
     });
     [hexascPanel, bitPanel].forEach(function (panel) {
@@ -37,6 +52,20 @@ var HexViewer = (function (id) {
     [bnbPanel, annoPanel].forEach(function (panel) {
         container.appendChild(panel);
     });
+
+    var hexClusterize = new Clusterize({
+        rows: [],
+        scrollId: 'hex-scroll',
+        contentId: 'hex',
+    });
+
+    var ascClusterize = new Clusterize({
+        rows: [],
+        scrollId: 'asc-scroll',
+        contentId: 'asc'
+    });
+
+    syncscroll.reset();
 
     // ByteView of the data buffer
     var byteView;
@@ -348,20 +377,23 @@ var HexViewer = (function (id) {
         // bytes per line
         byteView = new Uint8Array(buffer);
 
-        hexPanel.innerHTML = '';
-        ascPanel.innerHTML = '';
+        // hexPanel.innerHTML = '';
+        // ascPanel.innerHTML = '';
         // cannot simply overwrite array as addSelector encapsulated it
         hexBoxes.splice(0, hexBoxes.length);
         ascBoxes.splice(0, ascBoxes.length);
 
         // appending directly slows down
-        var hexFragment = document.createDocumentFragment();
-        var ascFragment = document.createDocumentFragment();
+        // var hexFragment = document.createDocumentFragment();
+        // var ascFragment = document.createDocumentFragment();
 
         // length of biggest line number (in hex)
         //var lineno_length = byteView.byteLength.toString(16).length;
         var lineno_length = 7; // hard-coded 8 (including colon) in CSS
         var lineno_pad = '0'.repeat(lineno_length);
+
+        var hexData = [];
+        var ascData = [];
 
         for (var i = 0; i < byteView.byteLength; i += COLUMNS) {
             var hexLine = document.createElement('div');
@@ -386,12 +418,12 @@ var HexViewer = (function (id) {
                 hexLine.appendChild(hexBox);
                 ascLine.appendChild(ascBox);
             }
-            hexFragment.appendChild(hexLine);
-            ascFragment.appendChild(ascLine);
+            hexData.push(hexLine.outerHTML);
+            ascData.push(hexLine.outerHTML);
         }
 
-        hexPanel.appendChild(hexFragment);
-        ascPanel.appendChild(ascFragment);
+        hexClusterize.update(hexData);
+        ascClusterize.update(hexData);
     }
 
     /* annotations related stuff */
