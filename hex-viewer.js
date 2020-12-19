@@ -419,11 +419,11 @@ var HexViewer = (function (id) {
                 ascLine.appendChild(ascBox);
             }
             hexData.push(hexLine.outerHTML);
-            ascData.push(hexLine.outerHTML);
+            ascData.push(ascLine.outerHTML);
         }
 
         hexClusterize.update(hexData);
-        ascClusterize.update(hexData);
+        ascClusterize.update(ascData);
     }
 
     /* annotations related stuff */
